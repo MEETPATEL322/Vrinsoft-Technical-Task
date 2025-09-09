@@ -13,17 +13,17 @@ export const sequelize: Sequelize = new Sequelize(
   }
 );
 
-// DB connection + model synchronization
 export const connectDB = async (): Promise<void> => {
   try {
     await sequelize.authenticate();
-    console.log("✅ MySQL connected successfully.");
+    console.log("MySQL connected successfully.");
 
-    // Sync models automatically (use alter:true only in dev)
-    await sequelize.sync({ alter: true });
-    console.log("✅ All models synchronized with DB.");
+    // await sequelize.sync({ alter: true });
+    //  await sequelize.sync({ force: true });
+    await sequelize.sync();
+    console.log("All tables synchronized with DB.");
   } catch (error) {
-    console.error("❌ Database connection failed:", error);
+    console.error("Database connection failed:", error);
     process.exit(1);
   }
 };

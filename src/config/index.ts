@@ -11,9 +11,8 @@ export const config = {
     password: process.env.DB_PASSWORD || "password",
     name: process.env.DB_NAME || "vinsoft",
   },
-  //   jwt: {
-  //     secret: process.env.JWT_SECRET || "defaultsecret",
-  //     refreshSecret: process.env.JWT_REFRESH_SECRET || "refreshsecret",
-  //     expiresIn: process.env.JWT_EXPIRES_IN || "1h",
-  //   },
+  jwt: {
+    secret: process.env.JWT_SECRET || "defaultsecret",
+    expiresIn: process.env.JWT_EXPIRES_IN || "1h",
+  },
 };
