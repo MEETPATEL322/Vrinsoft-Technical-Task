@@ -1,8 +1,8 @@
-// worker-redis.ts
 import { createClient } from "redis";
-import { connectDB } from "../../config/database";
-import { config } from "../../config";
-import { Event } from "../../models/event.model";
+import { connectDB } from "./config/database";
+import { config } from "./config";
+import { Event } from "./models/event.model";
+import { getIO } from "./socket/socket";
 
 async function start() {
   await connectDB();
@@ -23,18 +23,18 @@ async function start() {
         { where: { _id: data.eventId } }
       );
 
-      // Emit to all connected Socket.IO clients
-      //   io.emit("event_notification", {
-      //     eventId: data.eventId,
-      //     title: data.title,
-      //     payload: data.payload,
-      //     userId: data.userId,
-      //     timestamp: new Date().toISOString(),
-      //   });
+      const io = getIO();
+      io.emit("event_notification", {
+        eventId: data.eventId,
+        title: data.title,
+        payload: data.payload,
+        userId: data.userId,
+        timestamp: new Date().toISOString(),
+      });
 
-      console.log("✅ Broadcasted via Socket.IO");
+      console.log("Broadcasted via Socket.IO");
     } catch (err) {
-      console.error("❌ Worker error:", err);
+      console.error("Worker error:", err);
     }
   });
 }

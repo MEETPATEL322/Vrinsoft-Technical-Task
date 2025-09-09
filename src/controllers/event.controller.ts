@@ -1,8 +1,8 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 import { EventServices } from "../services/event.service";
 import { CustomRequest } from "../interfaces/user.interface";
 import { validateEvent } from "../validators/event.validator";
-import { publishRedis } from "../helpers/redis/publish-redis";
+import { publishRedis } from "../publish-redis";
 
 export class EventController {
   public static async createEvent(req: CustomRequest, res: Response) {
@@ -32,8 +32,6 @@ export class EventController {
         userId: event.userId,
         createdAt: event.createdAt,
       };
-
-      console.log(msg, "msg");
 
       await publishRedis(msg);
 

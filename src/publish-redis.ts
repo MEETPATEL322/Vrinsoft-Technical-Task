@@ -1,5 +1,5 @@
 import { createClient } from "redis";
-import { config } from "../../config";
+import { config } from "./config";
 
 const client = createClient({ url: config.redis.url });
 client.on("error", (err) => console.error("Redis Publisher Error:", err));

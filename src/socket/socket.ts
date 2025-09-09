@@ -1,8 +1,10 @@
 import { Server, Socket } from "socket.io";
 
 const connectedUsers: Map<string, string> = new Map();
+let ioInstance: Server;
 
 export const initializeSocket = (io: Server) => {
+  ioInstance = io;
   io.on("connection", (socket: Socket) => {
     const userId = socket.handshake.query.userId as string;
 
@@ -24,4 +26,11 @@ export const initializeSocket = (io: Server) => {
 
 export const getSocketIdByUserId = (userId: string): string | undefined => {
   return connectedUsers.get(userId);
+};
+
+export const getIO = (): Server => {
+  if (!ioInstance) {
+    throw new Error("Socket.IO not initialized");
+  }
+  return ioInstance;
 };
