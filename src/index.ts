@@ -3,6 +3,9 @@ import { config } from "./config/index";
 import cors from "cors";
 import { connectDB } from "./config/database";
 import Routes from "./routes";
+import { createServer } from "http";
+import { Server } from "socket.io";
+import { initializeSocket } from "./socket/socket";
 
 const app = express();
 const PORT = config.port;
@@ -18,8 +21,11 @@ app.get("/", (req, res) => {
 
 app.use("/api", Routes);
 
-// Start server + connect DB
-app.listen(PORT, async () => {
+const server = createServer(app);
+const io = new Server(server);
+
+server.listen(PORT, async () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
   await connectDB();
+  initializeSocket(io);
 });
