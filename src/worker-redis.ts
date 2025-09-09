@@ -11,12 +11,12 @@ async function start() {
   sub.on("error", (e) => console.error("Redis sub error:", e));
   await sub.connect();
 
-  console.log("✅ Redis worker listening...");
+  console.log("Redis worker listening...");
 
   await sub.subscribe(config.redis.channel, async (msg) => {
     try {
       const data = JSON.parse(msg);
-      console.log("➡️ Worker received", data);
+      console.log("Worker received", data);
 
       await Event.update(
         { status: "processed" },

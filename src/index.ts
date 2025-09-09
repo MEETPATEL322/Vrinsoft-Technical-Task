@@ -25,7 +25,7 @@ const server = createServer(app);
 const io = new Server(server);
 
 server.listen(PORT, async () => {
-  console.log(`🚀 Server running at http://localhost:${PORT}`);
+  console.log(`Server running at http://localhost:${PORT}`);
   await connectDB();
   initializeSocket(io);
 });
