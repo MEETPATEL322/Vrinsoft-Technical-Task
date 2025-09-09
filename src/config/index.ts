@@ -15,4 +15,8 @@ export const config = {
     secret: process.env.JWT_SECRET || "defaultsecret",
     expiresIn: process.env.JWT_EXPIRES_IN || "1h",
   },
+  redis: {
+    url: process.env.REDIS_URL || "redis://localhost:6379",
+    channel: process.env.REDIS_CHANNEL || "events_channel",
+  },
 };

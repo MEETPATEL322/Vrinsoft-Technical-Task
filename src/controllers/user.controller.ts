@@ -12,10 +12,11 @@ export class UserController {
 
       const existingUser: IUser | null = await UserServices.findByEmail(email);
       if (existingUser) {
-        return res.status(409).json({
+        res.status(409).json({
           success: false,
           message: "This email is already registered. Please login instead.",
         });
+        return;
       }
 
       const hashedPassword = await hashPassword(password);
@@ -25,16 +26,18 @@ export class UserController {
         password: hashedPassword,
       });
 
-      return res.status(201).json({
+      res.status(201).json({
         success: true,
         message: "User registered successfully.",
         data: user,
       });
+      return;
     } catch (err: any) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         message: err.message || "Failed to register user.",
       });
+      return;
     }
   }
 
@@ -64,14 +67,14 @@ export class UserController {
 
       const token = generateToken(payload);
 
-     const updatedUser= await UserServices.updateUser(user._id.toString(), {
+      const updatedUser = await UserServices.updateUser(user._id.toString(), {
         accessToken: token,
       });
 
       return res.status(200).json({
         success: true,
         message: "Login successful.",
-        data: {...updatedUser, accessToken: token},
+        data: { ...updatedUser, accessToken: token },
       });
     } catch (err: any) {
       return res.status(400).json({

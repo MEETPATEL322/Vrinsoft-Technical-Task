@@ -4,7 +4,7 @@ import { User } from "../models/user.model";
 export class UserServices {
   public static async findById(userId: string): Promise<IUser | null> {
     const user = await User.findByPk(userId, {
-      attributes: { exclude: ["accessToken", "password"] },
+      attributes: { exclude: ["password"] },
       raw: true,
     });
     return user ? (user as IUser) : null;
